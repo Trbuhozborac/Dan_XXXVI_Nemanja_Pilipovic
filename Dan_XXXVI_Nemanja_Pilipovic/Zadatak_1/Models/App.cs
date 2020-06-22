@@ -35,13 +35,15 @@ namespace Zadatak_1.Models
             Thread threadOne = new Thread(() => CreateMatrix());
             Thread threadTwo = new Thread(() => PopulateMatrix());
             threadOne.Start();
-            threadTwo.Start();            
+            threadTwo.Start();
+            threadOne.Join();
             threadTwo.Join();
-
+            
             Thread threadThree = new Thread(() => GetOddNumbers());
             Thread threadFour = new Thread(() => WriteFromFile());
             threadThree.Start();
             threadFour.Start();
+
         }
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace Zadatak_1.Models
             lock (obj)
             {
                 matrix = new int[100, 100];
+                Monitor.Pulse(obj);
                 Monitor.Wait(obj);
             }
         }
@@ -63,6 +66,10 @@ namespace Zadatak_1.Models
         {
             lock (obj)
             {
+                if(matrix == null)
+                {
+                    Monitor.Wait(obj);
+                }
                 Monitor.Pulse(obj);
                 for (int i = 0; i < 100; i++)
                 {
