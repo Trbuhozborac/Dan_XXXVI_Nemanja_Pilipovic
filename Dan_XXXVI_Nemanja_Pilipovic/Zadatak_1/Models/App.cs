@@ -35,7 +35,7 @@ namespace Zadatak_1.Models
             Thread threadOne = new Thread(() => CreateMatrix());
             Thread threadTwo = new Thread(() => PopulateMatrix());
             threadOne.Start();
-            threadTwo.Start();
+            threadTwo.Start();            
             threadTwo.Join();
 
             Thread threadThree = new Thread(() => GetOddNumbers());
@@ -110,8 +110,7 @@ namespace Zadatak_1.Models
             if (File.Exists(location))
             {
                 lock (location)
-                {
-                    Monitor.Wait(location);
+                {                    
                     using (StreamWriter sw = new StreamWriter(location))
                     {
                         foreach (int number in oddNumbersArray)
@@ -119,6 +118,7 @@ namespace Zadatak_1.Models
                             sw.WriteLine(number);
                         }
                     }
+                    Monitor.Wait(location);
                 }
             }
             else
