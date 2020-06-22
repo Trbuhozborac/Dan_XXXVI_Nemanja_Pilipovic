@@ -111,6 +111,7 @@ namespace Zadatak_1.Models
             {
                 lock (location)
                 {
+                    Monitor.Wait(location);
                     using (StreamWriter sw = new StreamWriter(location))
                     {
                         foreach (int number in oddNumbersArray)
@@ -118,7 +119,6 @@ namespace Zadatak_1.Models
                             sw.WriteLine(number);
                         }
                     }
-                    Monitor.Pulse(location);
                 }
             }
             else
@@ -137,7 +137,7 @@ namespace Zadatak_1.Models
             {
                 lock (location)
                 {
-                    Monitor.Wait(location);
+                    Monitor.Pulse(location);
                     using (StreamReader sr = new StreamReader(location))
                     {
                         string numbers = sr.ReadToEnd();
