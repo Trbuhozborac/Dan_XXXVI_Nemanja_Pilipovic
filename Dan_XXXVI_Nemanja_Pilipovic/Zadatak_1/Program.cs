@@ -7,6 +7,7 @@ namespace Zadatak_1
     {
         static void Main(string[] args)
         {
+            //Application starts by calling Start method
             App app = new App();
             app.Start();
             Console.ReadLine();
